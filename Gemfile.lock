@@ -9,13 +9,6 @@ GEM
       tzinfo (~> 1.1)
     domain_name (0.5.20161129)
       unf (>= 0.0.5, < 1.0.0)
-    goodreads (0.4.3)
-      activesupport (>= 3.0)
-      hashie (~> 2.0)
-      i18n (~> 0.5)
-      oauth (~> 0.4)
-      rest-client (~> 1.6)
-    hashie (2.1.2)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     i18n (0.7.0)
@@ -47,8 +40,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  goodreads
+  activesupport
   oauth
+  rest-client
   sinatra
 
 BUNDLED WITH
