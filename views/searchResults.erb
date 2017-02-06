@@ -1,0 +1,35 @@
+<div class="panel-group" id="searchResultsAccordian" role="tablist" aria-multiselectable="true">
+	<% @searchResults.each do |searchResult|  %>
+		<div class="panel panel-default">
+			<% puts searchResult %>
+			<% book = searchResult["best_book"] %>
+			<% puts "valid best book" %>
+			<% bookId = book["id"] %>
+			<% puts "valid id" %>
+			<% headingId = "heading" + bookId.to_s %>
+			<% collapseId = "collapse" + bookId.to_s %>
+			<div class="panel-heading" role="tab" id="<%= headingId %>">
+				<h4 class="panel-title">
+					<a role="button" data-toggle="collapse" data-parent="#searchResultsAccordian" href="#<%= collapseId %>" aria-expanded="false" aria-controls="<%= collapseId %>">
+						<div class="text-primary pull-left"> 
+							<%= book["title"] %>
+							<% puts "valid title" %>
+						</div>
+						<div class="text-muted pull-right">
+							<%= book["author"]["name"] %>
+							<% puts "valid author" %>
+						</div>
+						<div class="clearfix"></div>
+					</a>
+				</h4>
+			</div>
+			<div id="<%= collapseId %>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="<%= headingId %>">
+				<div class="panel-footer">
+					<button type="button" class="btn btn-primary">
+						Add to Library					
+					</button>
+				</div>
+			</div>
+		</div>
+	<% end %>
+</div>

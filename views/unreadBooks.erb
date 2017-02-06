@@ -1,0 +1,32 @@
+<div class="panel-group" id="unreadBooksAccordian" role="tablist" aria-multiselectable="true">
+	<% @unreadBooks.each do |unreadBook|  %>
+		<div class="panel panel-default">
+			<% bookId = unreadBook["book"]["id"] %>
+			<% headingId = "heading" + bookId.to_s %>
+			<% collapseId = "collapse" + bookId.to_s %>
+			<div class="panel-heading" role="tab" id="<%= headingId %>">
+				<h4 class="panel-title">
+					<a role="button" data-toggle="collapse" data-parent="#unreadBooksAccordian" href="#<%= collapseId %>" aria-expanded="false" aria-controls="<%= collapseId %>">
+						<div class="text-primary pull-left"> 
+							<%= unreadBook["book"]["title"] %>
+						</div>
+						<div class="text-muted pull-right">
+							<%= unreadBook["book"]["authors"]["author"]["name"] %>
+						</div>
+						<div class="clearfix"></div>
+					</a>
+				</h4>
+			</div>
+			<div id="<%= collapseId %>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="<%= headingId %>">
+				<div class="panel-body">
+					<%= unreadBook["book"]["description"] %>
+				</div>
+				<div class="panel-footer">
+					<button type="button" class="btn btn-primary">
+						Mark As Currently Reading					
+					</button>
+				</div>
+			</div>
+		</div>
+	<% end %>
+</div>

@@ -49,3 +49,10 @@ get '/goodreads_oauth_callback' do
 	
 	redirect '/'
 end
+
+get '/search' do 
+	puts "at search route"
+	query = params["bookName"]
+	@searchResults = oauthGet('/search/index.xml', "q" => query)["search"]["results"]["work"]
+	erb :searchResults, :layout => false
+end

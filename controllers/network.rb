@@ -1,5 +1,6 @@
 require 'rest-client'
 require 'active_support/core_ext/hash'
+require 'uri'
 
 module Network
 	API_URL = 'http://www.goodreads.com'
@@ -32,7 +33,11 @@ module Network
 	private
 	
 	def queryParameters(requestParameters)
-		return requestParameters.map { |k, v| "#{k}=#{v}" }.join("&")
+		return requestParameters.map { |k, v| 
+			encodedKey = URI.escape(k)
+			encodedValue = URI.escape(v)
+			return "#{encodedKey}=#{encodedValue}" 
+		}.join("&")
 	end
 	
 	def addParametersToPath(requestParameters, path)
