@@ -9,3 +9,4 @@ To add a new book to your library, search for the book name in the search bar an
 Download the repository, then run `bundle install` from the command line to install necessary Ruby components.
 
 Run `rackup` to launch the application at http://localhost:9292.
+

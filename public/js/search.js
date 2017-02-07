@@ -18,7 +18,6 @@ var showResultsAndHideSpinner = function(data) {
 var performSearch = function(bookName, pageNumber) {		
 	clearSearchResultsAndShowSpinner()
 		
-	//send an ajax request to our action
 	$.ajax({
 		url: "/search",
 		data: { "bookName": bookName, "pageNumber": pageNumber },
@@ -32,17 +31,31 @@ var performSearch = function(bookName, pageNumber) {
 	});
 };
 
+var addNewlyAddedBookToBookLists = function() {
+	$.ajax({
+		url: "/refreshBookLists",
+		dataType: "html", 
+		success: function(data) {
+			$("#bookLists").html(data);
+			makeUnreadBooksActive();
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+};
+
 var addBookToLibrary = function(bookId) {		
 	clearSearchResultsAndShowSpinner()
 		
-	//send an ajax request to our action
 	$.ajax({
 		url: "/ownedBook",
 		method: "POST",
 		data: { "bookId": bookId },
 		dataType: "html",
 		success: function(data) {
-			showResultsAndHideSpinner(data)
+			showResultsAndHideSpinner(data);
+			addNewlyAddedBookToBookLists();
 		}, 
 		error: function(data) {
 			console.log(data);

@@ -19,21 +19,12 @@ helpers do
 	end
 	
 	def getBooks
-		if !session[:allBooks]
-			getUser
-			#Goodreads API doesn't actually paginate their owned_books results which is...fun. Just requesting the max_number allowed for now.
-			session[:allBooks] = oauthGet('/owned_books/user', "id" => @user["id"], "per_page" => "200")["owned_books"]["owned_book"]
-		end
-		
-		@allBooks = session[:allBooks]
+		getUser
+		#Goodreads API doesn't actually paginate their owned_books results which is...fun. Just requesting the max_number allowed for now.
+		@allBooks = oauthGet('/owned_books/user', "id" => @user["id"], "per_page" => "200")["owned_books"]["owned_book"]
 	end
 	
-	def calculateUnreadBooks
-		if session[:unreadBooks]
-			@unreadBooks = session[:unreadBooks]
-			return
-		end
-	
+	def calculateUnreadBooks	
 		@unreadBooks = Array.new
 		@allBooks.each do |ownedBook| 
 			hasBeenRead = false 
@@ -51,8 +42,11 @@ helpers do
 				@unreadBooks.push(ownedBook)
 			end 
 		end
-		
-		session[:unreadBooks] = @unreadBooks
+	end 
+	
+	def refreshBookList
+		getBooks
+		calculateUnreadBooks
 	end
 end
 
@@ -62,8 +56,7 @@ get '/' do
 		return
 	end
 	
-	getBooks	
-	calculateUnreadBooks 
+	refreshBookList
 	
 	erb :index
 end
@@ -99,4 +92,10 @@ post '/ownedBook' do
 	else 
 		erb :ownedBookFailure, :layout => false
 	end
+end
+
+get '/refreshBookLists' do
+	refreshBookList
+	
+	erb :index, :layout => false
 end
