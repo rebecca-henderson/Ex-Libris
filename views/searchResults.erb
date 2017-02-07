@@ -1,33 +1,20 @@
 <%= erb :pagination %>
 <% searchResultsList = @searchResults["results"]["work"] %>
-<div class="panel-group" id="searchResultsAccordian" role="tablist" aria-multiselectable="true">
-	<% searchResultsList.each do |searchResult|  %>
-		<div class="panel panel-default">
-			<% book = searchResult["best_book"] %>
-			<% bookId = book["id"] %>
-			<% headingId = "heading" + bookId.to_s %>
-			<% collapseId = "collapse" + bookId.to_s %>
-			<div class="panel-heading" role="tab" id="<%= headingId %>">
-				<h4 class="panel-title">
-					<a role="button" data-toggle="collapse" data-parent="#searchResultsAccordian" href="#<%= collapseId %>" aria-expanded="false" aria-controls="<%= collapseId %>">
-						<div class="text-primary pull-left"> 
-							<%= book["title"] %>
-						</div>
-						<div class="text-muted pull-right">
-							<%= book["author"]["name"] %>
-						</div>
-						<div class="clearfix"></div>
-					</a>
-				</h4>
+<div class="list-group">
+	<% searchResultsList.each do |searchResult|  %>		
+		<% book = searchResult["best_book"] %>
+		<% bookId = book["id"] %>
+		<% headingId = "heading" + bookId.to_s %>
+		<% collapseId = "collapse" + bookId.to_s %>
+		<button type="button" class="list-group-item" onclick="addBookToLibrary(<%= book["id"] %>);">
+			<div class="text-primary pull-left"> 
+				<%= book["title"] %>
 			</div>
-			<div id="<%= collapseId %>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="<%= headingId %>">
-				<div class="panel-footer">
-					<button type="button" class="btn btn-primary">
-						Add to Library					
-					</button>
-				</div>
+			<div class="text-muted pull-right">
+				<%= book["author"]["name"] %>
 			</div>
-		</div>
+			<div class="clearfix"></div>
+		</button>
 	<% end %>
 </div>
 <%= erb :pagination %>

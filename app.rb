@@ -59,3 +59,11 @@ get '/search' do
 	
 	erb :searchResults, :layout => false
 end
+
+post '/ownedBook' do 
+	bookId = params["bookId"]
+	
+	@addOwnedBookResults = oauthPost('/owned_books.xml', "owned_book" => bookId)
+	
+	erb :addOwnedBook, :layout => false
+end

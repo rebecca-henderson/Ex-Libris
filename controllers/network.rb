@@ -21,13 +21,31 @@ module Network
       	return parse(response)
 	end
 	
+	def oauthPost(path, requestParameters = nil)
+		
+		#API terms of use requires no more than one request per second
+		#sleep(1)
+		
+		accessToken = session[:access_token]
+		
+		if requestParameters
+        	path = addParametersToPath(requestParameters, path)
+      	end
+      
+      	response = accessToken.post(path, "Accept" => "application/xml")
+      	
+      	#FIXME: better error handling
+      	
+      	return parse(response)
+	end
+	
 	private
 	
 	def queryParameters(requestParameters)
-		return requestParameters.map { |k, v| 
+		requestParameters.map { |k, v| 
 			encodedKey = URI.escape(k)
 			encodedValue = URI.escape(v)
-			return "#{encodedKey}=#{encodedValue}" 
+			"#{encodedKey}=#{encodedValue}" 
 		}.join("&")
 	end
 	
@@ -36,6 +54,8 @@ module Network
 	end
 	
 	def parse(response)
+	
+		puts(response)
 	
 		hash = Hash.from_xml(response.body)
 				
