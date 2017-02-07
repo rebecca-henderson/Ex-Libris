@@ -1,25 +1,31 @@
 $( document ).ready(function() {	
-	$("#allBooksLink").click(function(event){
+	makeUnreadBooksActive();
+
+	$("a#allBooksNavLink").click(function(event){
 		makeAllBooksActive();
 	});
 	
-	$("#unreadBooksLink").click(function(event){
+	$("a#unreadBooksNavLink").click(function(event){
 		makeUnreadBooksActive();
 	});
 });
 
 var makeUnreadBooksActive = function() {
-	$(".allBooks").hide();
-	$(".unreadBooks").show();
+	$("div.allBooks").hide();
+	$("div.unreadBooks").show();
 	
-	$("div #allBooksCurrent").html("");	
-	$("div #unreadBooksCurrent").html("<span class='sr-only'>(current)</span>");	
-}
+	$("div#allBooksCurrentSpan").html("");	
+	$("div#unreadBooksCurrentSpan").html("<span class='sr-only'>(current)</span>");
+	$("li#unreadBooksNavItem").attr("class", "active")
+	$("li#allBooksNavItem").removeAttr("class")
+};
 
 var makeAllBooksActive = function() {
-	$(".unreadBooks").hide();
-	$(".allBooks").show();
+	$("div.unreadBooks").hide();
+	$("div.allBooks").show();
 			
-	$("div #unreadBooksCurrent").html("");
-	$("div #allBooksCurrent").html("<span class='sr-only'>(current)</span>");	
-}
+	$("div#unreadBooksCurrentSpan").html("");
+	$("div#allBooksCurrentSpan").html("<span class='sr-only'>(current)</span>");
+	$("li#allBooksNavItem").attr("class", "active")
+	$("li#unreadBooksNavItem").removeAttr("class")
+};
