@@ -1,4 +1,4 @@
-# Ex-Libris
+# Ex Libris
 This is a Sinatra app that allows Goodreads users to view books in their 'Owned Books' list and add new books to their library.
 
 Toggle between unread books in your library and all of your owned books by selecting the links in the navigation bar. 
