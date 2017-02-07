@@ -2,8 +2,8 @@ require 'oauth'
 
 module OAuth
 
-DEVELOPERKEY = ''
-SECRET = ''
+DEVELOPERKEY = 'YgSytTwCEIdC1HjOGgw'
+SECRET = 't8H7uGaeJI9uGSKFGZAVFZaiGAJmZBCrm3j70QRaMFw'
 
 	def makeConsumer                               
 	  consumer = OAuth::Consumer.new(DEVELOPERKEY, SECRET, {

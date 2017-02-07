@@ -1,0 +1,32 @@
+<div class="panel-group <%= listName %>" id="<%= listName %>" role="tablist" aria-multiselectable="true">
+	<% books.each do |book|  %>
+		<div class="panel panel-default">
+			<% bookId = book["book"]["id"] %>
+			<% headingId = listName + "heading" + bookId.to_s %>
+			<% collapseId = listName + "collapse" + bookId.to_s %>
+			<div class="panel-heading" role="tab" id="<%= headingId %>">
+				<h4 class="panel-title">
+					<a role="button" data-toggle="collapse" data-parent="#<%= listName %>" href="#<%= collapseId %>" aria-expanded="false" aria-controls="<%= collapseId %>">
+						<div class="text-primary pull-left"> 
+							<%= book["book"]["title"] %>
+						</div>
+						<div class="text-muted pull-right">
+							<%= book["book"]["authors"]["author"]["name"] %>
+						</div>
+						<div class="clearfix"></div>
+					</a>
+				</h4>
+			</div>
+			<div id="<%= collapseId %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= headingId %>">
+				<div class="panel-body">
+					<%= book["book"]["description"] %>
+				</div>
+				<div class="panel-footer">
+					<button type="button" class="btn btn-primary">
+						Mark As Currently Reading					
+					</button>
+				</div>
+			</div>
+		</div>
+	<% end %>
+</div>

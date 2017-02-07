@@ -1,1 +1,2 @@
-<%= erb :unreadBooks %>
+<%= erb :bookList, :locals => {:books => @unreadBooks, :listName => "unreadBooks"} %>
+<%= erb :bookList, :locals => {:books => @allBooks, :listName => "allBooks"} %>

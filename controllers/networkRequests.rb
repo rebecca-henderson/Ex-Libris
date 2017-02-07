@@ -1,16 +1,12 @@
-require 'rest-client'
 require 'active_support/core_ext/hash'
 require 'uri'
 
-module Network
+module NetworkRequests
 	API_URL = 'http://www.goodreads.com'
 	RESPONSE_FORMAT = 'xml'
 	
 	def oauthGet(path, requestParameters = nil)
-		
-		#API terms of use requires no more than one request per second
-		#sleep(1)
-		
+				
 		accessToken = session[:access_token]
 		
 		if requestParameters
@@ -18,28 +14,35 @@ module Network
       	end
       
       	response = accessToken.get(path, "Accept" => "application/xml")
+      	
+      	checkResponseForErrors(response)
+      	
       	return parse(response)
 	end
 	
 	def oauthPost(path, requestParameters = nil)
-		
-		#API terms of use requires no more than one request per second
-		#sleep(1)
-		
+				
 		accessToken = session[:access_token]
-		
-		if requestParameters
-        	path = addParametersToPath(requestParameters, path)
-      	end
       
-      	response = accessToken.post(path, "Accept" => "application/xml")
+      	response = accessToken.post(path, requestParameters, "Accept" => "application/xml")
       	
-      	#FIXME: better error handling
+      	checkResponseForErrors(response)
       	
-      	return parse(response)
+      	return true
 	end
 	
 	private
+	
+	def checkResponseForErrors(response) 
+		case response
+		when Net::HTTPUnauthorized
+			fail (response.message)
+		when Net::HTTPNotFound
+			fail (response.message)
+		when Net::HTTPInternalServerError
+			fail (response.message)
+		end
+	end
 	
 	def queryParameters(requestParameters)
 		requestParameters.map { |k, v| 
@@ -55,10 +58,8 @@ module Network
 	
 	def parse(response)
 	
-		puts(response)
-	
 		hash = Hash.from_xml(response.body)
-				
+		
 		goodreadsResponse = hash["GoodreadsResponse"]
       	goodreadsResponse.delete("Request")
       	
