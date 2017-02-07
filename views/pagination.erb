@@ -1,0 +1,17 @@
+<% totalResults = @searchResults["total_results"].to_i %>
+<% resultStart = @searchResults["results_start"].to_i %>
+<% resultEnd = @searchResults["results_end"].to_i %>
+<% perPage = (resultEnd - resultStart) %>
+<% totalPages = (totalResults / perPage).ceil %>
+<% currentPage = resultEnd / perPage %>
+<nav aria-label="Page navigation">
+  <ul class="pager">
+    <li <%= currentPage == 1 ? "class='disabled'" : "" %>>
+    	<a href="#" onclick="performSearch('<%= @searchQuery %>', <%= currentPage - 1 %>);">Previous</a>
+    </li>
+    <li <%= currentPage == totalPages ? "class='disabled'" : "" %>>
+    	<a href="#" onclick="performSearch('<%= @searchQuery %>', <%= currentPage + 1 %>);">Next</a>
+    </li>
+  </ul>
+</nav>
+

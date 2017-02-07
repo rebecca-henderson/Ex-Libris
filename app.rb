@@ -16,6 +16,7 @@ get '/' do
 	end
 	
 	@user = oauthGet('/api/auth_user')["user"]
+	#Goodreads API doesn't actually paginate their owned_books results which is...fun. Just requesting the max_number allowed for now.
 	@books = oauthGet('/owned_books/user', "id" => @user["id"], "per_page" => "200")["owned_books"]["owned_book"]
 	
 	@unreadBooks = Array.new
@@ -51,8 +52,10 @@ get '/goodreads_oauth_callback' do
 end
 
 get '/search' do 
-	puts "at search route"
-	query = params["bookName"]
-	@searchResults = oauthGet('/search/index.xml', "q" => query)["search"]["results"]["work"]
+	@searchQuery = params["bookName"]
+	pageNumber = params["pageNumber"]
+	
+	@searchResults = oauthGet('/search/index.xml', "q" => @searchQuery, "page" => pageNumber)["search"]
+	
 	erb :searchResults, :layout => false
 end
