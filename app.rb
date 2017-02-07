@@ -80,6 +80,16 @@ get '/search' do
 	
 	@searchResults = oauthGet('/search/index.xml', "q" => @searchQuery, "page" => pageNumber)["search"]
 	
+	searchResultsArray = @searchResults["results"]
+	if !searchResultsArray
+		return erb :failure, :locals => {:message => "No results found."},  :layout => false
+	end
+	
+	searchResultsList = searchResultsArray["work"]
+	if !searchResultsList
+		return erb :failure, :locals => {:message => "No results found."},  :layout => false
+	end
+	
 	erb :searchResults, :layout => false
 end
 
@@ -88,9 +98,9 @@ post '/ownedBook' do
 	
 	@didAddBook = oauthPost('/owned_books.xml', "owned_book[book_id]" => bookId)
 	if @didAddBook
-		erb :ownedBookSuccess, :layout => false
-	else 
-		erb :ownedBookFailure, :layout => false
+		erb :success, :locals => {:message => "This book was successfully added to your library!"}, :layout => false
+	else
+		erb :failure, :locals => {:message => "There was an issue adding this book to your library. Please try again."}, :layout => false
 	end
 end
 

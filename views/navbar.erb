@@ -12,20 +12,6 @@
 		</div>
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-				<li id="unreadBooksNavItem">
-					<a href="#" id="unreadBooksNavLink">
-						Unread Books
-						<div id="unreadBooksCurrentSpan"></div>
-					</a>
-				</li>
-				<li id="allBooksNavItem">
-					<a href="#" id="allBooksNavLink">
-						All Books
-						<div id="allBooksCurrentSpan"></div>
-					</a>
-				</li>
-        	</ul>
 			<form class="navbar-form navbar-right" id="searchForm">
 				<div class="form-group">
 					<input type="text" class="form-control" placeholder="Book name" name="bookName">
@@ -36,3 +22,11 @@
 		<%= erb :search %>
 	</div>
 </nav>
+<ul class="nav nav-pills center-pills">
+	<li role="presentation" id="unreadBooksNavItem">
+  		<a href="#" id="unreadBooksNavLink">Unread Books</a>
+  	</li>
+  	<li role="presentation" id="allBooksNavItem">
+  		<a href="#" id="allBooksNavLink">All Books</a>
+  	</li>
+</ul>

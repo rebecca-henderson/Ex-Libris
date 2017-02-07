@@ -1,5 +1,5 @@
 <%= erb :pagination %>
-<% searchResultsList = @searchResults["results"]["work"] %>
+<% searchResultsList= @searchResults["results"]["work"] %>
 <div class="list-group">
 	<% searchResultsList.each do |searchResult|  %>		
 		<% book = searchResult["best_book"] %>
