@@ -1,9 +1,10 @@
 <div class="panel-group <%= listName %>" id="<%= listName %>" role="tablist" aria-multiselectable="true">
 	<% books.each do |book|  %>
-		<div class="panel panel-default">
-			<% bookId = book["book"]["id"] %>
-			<% headingId = listName + "heading" + bookId.to_s %>
-			<% collapseId = listName + "collapse" + bookId.to_s %>
+		<% ownedBookId = book["id"] %>
+		<% panelId = listName + "Panel" + ownedBookId.to_s %>
+		<% headingId = listName + "Heading" + ownedBookId.to_s %>
+		<% collapseId = listName + "Collapse" + ownedBookId.to_s %>
+		<div class="panel panel-default" id="<%= panelId %>">
 			<div class="panel-heading" role="tab" id="<%= headingId %>">
 				<h4 class="panel-title">
 					<a role="button" data-toggle="collapse" data-parent="#<%= listName %>" href="#<%= collapseId %>" aria-expanded="false" aria-controls="<%= collapseId %>">
@@ -22,8 +23,8 @@
 					<%= book["book"]["description"] %>
 				</div>
 				<div class="panel-footer">
-					<button type="button" class="btn btn-primary">
-						Mark As Currently Reading					
+					<button type="button" class="btn btn-danger deleteBook" onclick="removeBookFromLibrary(<%= ownedBookId %>);">
+						Remove From Library					
 					</button>
 				</div>
 			</div>

@@ -96,11 +96,24 @@ end
 post '/ownedBook' do 
 	bookId = params["bookId"]
 	
-	@didAddBook = oauthPost('/owned_books.xml', "owned_book[book_id]" => bookId)
-	if @didAddBook
+	didAddBook = oauthPost('/owned_books.xml', "owned_book[book_id]" => bookId)
+	if didAddBook
 		erb :success, :locals => {:message => "This book was successfully added to your library!"}, :layout => false
 	else
 		erb :failure, :locals => {:message => "There was an issue adding this book to your library. Please try again."}, :layout => false
+	end
+end
+
+delete '/ownedBook' do 
+	ownedBookId = params["ownedBookId"]
+	
+	puts ownedBookId
+	
+	didDeleteBook = oauthPost('/owned_books/destroy/'+ownedBookId.to_s)
+	if didDeleteBook
+		erb :success, :locals => {:message => "This book was successfully removed from your library!"}, :layout => false
+	else
+		erb :failure, :locals => {:message => "There was an issue removing this book to your library. Please try again."}, :layout => false
 	end
 end
 
