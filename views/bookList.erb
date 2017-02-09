@@ -3,6 +3,9 @@
 		Uses the owned book id for each book in the list plus the list name to create a unique identifier for each book panel.
 		Shows the book title and author in the panel header and the book description in the body. Adds a 'Remove from Library' button in the footer.
 	//-->
+	<% if books.count == 0 %>
+		<%= erb :noBooks %>
+	<% end %>
 	<% books.each do |book|  %>
 		<% ownedBookId = book["id"] %>
 		<% panelId = listName + "Panel" + ownedBookId.to_s %>

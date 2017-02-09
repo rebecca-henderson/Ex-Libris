@@ -23,7 +23,14 @@ helpers do
 	def getBooks
 		getUser
 		#Goodreads API doesn't actually paginate their owned_books results which is...fun. Just requesting the max_number allowed for now.
-		books = oauthGet('/owned_books/user', "id" => @user["id"], "per_page" => "200")["owned_books"]["owned_book"]
+		bookResults = oauthGet('/owned_books/user', "id" => @user["id"], "per_page" => "200")["owned_books"]
+			
+		if bookResults.is_a? String
+			@allBooks = []
+			return
+		end
+		
+		books = bookResults["owned_book"]
 		
 		if books.is_a? Hash
 			books = [books]
