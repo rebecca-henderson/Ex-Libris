@@ -1,3 +1,4 @@
+<!-- Nav bar displaying the App name, welcome message and add book search bar/button. -->
 <nav class="navbar navbar-default">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -10,7 +11,6 @@
 		  <a class="navbar-brand" href="">Ex Libris</a>
 		  <p class="navbar-text">Welcome, <%= @user["name"] %>.</p>
 		</div>
-		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<form class="navbar-form navbar-right" id="searchForm">
 				<div class="form-group">
@@ -22,11 +22,3 @@
 		<%= erb :search %>
 	</div>
 </nav>
-<ul class="nav nav-pills center-pills">
-	<li role="presentation" id="unreadBooksNavItem">
-  		<a href="#" id="unreadBooksNavLink">Unread Books</a>
-  	</li>
-  	<li role="presentation" id="allBooksNavItem">
-  		<a href="#" id="allBooksNavLink">All Books</a>
-  	</li>
-</ul>

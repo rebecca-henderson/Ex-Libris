@@ -1,3 +1,7 @@
+<!--
+	Adds the unread books list and the all books list.
+	The modalAlert is initially hidden and is used when deleting books from the library.
+ -->
 <div id="bookLists">
 	<%= erb :bookList, :locals => {:books => @unreadBooks, :listName => "unreadBooks"} %>
 	<%= erb :bookList, :locals => {:books => @allBooks, :listName => "allBooks"} %>

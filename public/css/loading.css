@@ -1,3 +1,6 @@
+/*
+	Used when showing the spinner during the search process. See /views/search.erb.
+*/
 .spinner {
   margin: 100px auto 0;
   width: 70px;

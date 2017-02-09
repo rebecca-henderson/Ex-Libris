@@ -1,9 +1,10 @@
-<% totalResults = @searchResults["total_results"].to_i %>
-<% resultStart = @searchResults["results_start"].to_i %>
-<% resultEnd = @searchResults["results_end"].to_i %>
-<% perPage = (resultEnd - resultStart) %>
-<% totalPages = (totalResults / perPage).ceil %>
-<% currentPage = resultEnd / perPage %>
+<!-- Used to paginate search results in search.erb. Clicking the buttons fires off a request for the next/previous page. -->
+<% perPage = (@resultEnd - @resultStart).to_i %>
+<% if perPage == 0 %>
+	<% perPage = 1 %>
+<% end %>
+<% totalPages = (@totalResults / perPage).ceil %>
+<% currentPage = @resultEnd / perPage %>
 <nav aria-label="Page navigation">
   <ul class="pager">
     <li <%= currentPage == 1 ? "class='disabled'" : "" %>>

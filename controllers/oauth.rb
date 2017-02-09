@@ -2,9 +2,12 @@ require 'oauth'
 
 module OAuth
 
+#Provided by Goodreads API
+#https://www.goodreads.com/api
 DEVELOPERKEY = ''
 SECRET = ''
-
+	
+	#Creates our OAuth consumer object using the urls and keys provided by Goodreads
 	def makeConsumer                               
 	  consumer = OAuth::Consumer.new(DEVELOPERKEY, SECRET, {
 		:site               => "http://www.goodreads.com",
@@ -16,6 +19,7 @@ SECRET = ''
 	   return consumer
 	end
 
+	#Begins the OAuth process by creating an OAuth consumer and getting a request token which is then stored in the session.
 	def makeRequest_token 
 		request_token = makeConsumer.get_request_token
 		session[:request_token] = request_token

@@ -1,12 +1,12 @@
+<!-- Displays search results and pagination. The results show the book title and author name. -->
 <%= erb :pagination %>
-<% searchResultsList= @searchResults["results"]["work"] %>
 <div class="list-group">
-	<% searchResultsList.each do |searchResult|  %>		
+	<% @searchResults.each do |searchResult|  %>
 		<% book = searchResult["best_book"] %>
-		<% bookId = book["id"] %>
-		<% headingId = "heading" + bookId.to_s %>
-		<% collapseId = "collapse" + bookId.to_s %>
-		<button type="button" class="list-group-item" onclick="addBookToLibrary(<%= book["id"] %>);">
+		<% bookId = book["id"].to_s %>
+		<% headingId = "heading" + bookId %>
+		<% collapseId = "collapse" + bookId %>
+		<button type="button" class="list-group-item" onclick="addBookToLibrary(<%= bookId %>);">
 			<div class="text-primary pull-left"> 
 				<%= book["title"] %>
 			</div>

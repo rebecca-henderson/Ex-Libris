@@ -1,3 +1,6 @@
+/*
+	Additional CSS to center the nav pills added in /views/navPills.erb
+*/
 .center-pills {
     display: flex;
     justify-content: center;

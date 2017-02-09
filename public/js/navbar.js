@@ -10,6 +10,7 @@ $( document ).ready(function() {
 	});
 });
 
+//Hides the all books list, shows the unread books list (from index.erb) and makes the unread lists nav pill active (from navPills.erb).
 var makeUnreadBooksActive = function() {
 	$("div.allBooks").hide();
 	$("div.unreadBooks").show();
@@ -18,6 +19,7 @@ var makeUnreadBooksActive = function() {
 	$("li#allBooksNavItem").removeAttr("class")
 };
 
+//Hides the all books list, shows the unread books list and makes the unread lists nav pill active.
 var makeAllBooksActive = function() {
 	$("div.unreadBooks").hide();
 	$("div.allBooks").show();
