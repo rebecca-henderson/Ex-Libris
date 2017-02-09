@@ -14,11 +14,10 @@ This requires a Goodreads account. Sign up at goodreads.com and then head to goo
 
 # To Do
 * Better Network response error handling. More robust and more graceful.
-* Improve OAuth callback error checking.
 * Better way to update the book list after adding a new book to the library. Currently the whole list is refetched, re-rendered and replaced.
 * Center loading spinner in search modal.
 * Use generic modalAlert when displaying responses from POST /ownedBook rather than reusing the search modal.
-* Move pagination calculation to helper method and out of erb?
+* If deleting the last book in the library it should go back to the empty library view
 
 
 # Enhancements
