@@ -23,7 +23,13 @@ helpers do
 	def getBooks
 		getUser
 		#Goodreads API doesn't actually paginate their owned_books results which is...fun. Just requesting the max_number allowed for now.
-		@allBooks = oauthGet('/owned_books/user', "id" => @user["id"], "per_page" => "200")["owned_books"]["owned_book"]
+		books = oauthGet('/owned_books/user', "id" => @user["id"], "per_page" => "200")["owned_books"]["owned_book"]
+		
+		if books.is_a? Hash
+			books = [books]
+		end
+		
+		@allBooks = books
 	end
 	
 	#Checks an ownedBook response for the presence of a review
@@ -90,49 +96,17 @@ end
 
 #Called by Goodreads when the user has finished authenticating with them. Continues the OAuth process to get the access token using the request token, which it then stores in the session. Redirects back to GET / to kick off the book list loading.
 get '/goodreads_oauth_callback' do 
-	#FIXME: if the user did not allow access, we should not procede.
+	if params[:authorize].to_i == 0
+		return erb :login, :layout => false
+	end
+
 	request_token = session[:request_token]
+	
 	access_token = request_token.get_access_token oauth_verifier: params[:oauth_verifier]
 	
 	session[:access_token] = access_token
 	
 	redirect '/'
-end
-
-#Called from the 'Add to Library' nav bar button form submission. The default behavior of the form is overridden in /js/navbar.js and an AJAX request is sent instead. Sends the search query to Goodreads. If there are results, sends the searchResults.erb data back to the AJAX request, which is then rendered in the search modal. If there are no results found, failure.erb is rendered instead.
-get '/search' do 
-	@searchQuery = params["bookName"]
-	pageNumber = params["pageNumber"]
-	
-	searchResultsResponse = oauthGet('/search/index.xml', "q" => @searchQuery, "page" => pageNumber)["search"]
-	
-	puts "testa"
-	
-	searchResultsArray = searchResultsResponse["results"]
-	if !searchResultsArray || searchResultsArray.count == 0
-		return erb :failure, :locals => {:message => "No results found."},  :layout => false
-	end
-	
-	puts "test"
-	
-	searchResultsWorkList = searchResultsArray["work"]
-	if !searchResultsWorkList
-		return erb :failure, :locals => {:message => "No results found."},  :layout => false
-	end
-	puts "test2"
-	
-	#when there's only 1 result, the xml to hash conversion makes the results list a single hash instead of an array of one hash
-	if searchResultsWorkList.is_a? Hash 
-		@searchResults = [searchResultsWorkList]
-	else
-		@searchResults = searchResultsWorkList	
-	end
-	
-	@totalResults = searchResultsResponse["total_results"].to_i
-	@resultStart = searchResultsResponse["results_start"].to_i
-	@resultEnd = searchResultsResponse["results_end"].to_i
-	
-	erb :searchResults, :layout => false
 end
 
 #Adds a book to the user's owned books list.
@@ -152,9 +126,7 @@ end
 #Called when clicking the 'Remove from library' button on a book in the book list. This request is sent via AJAX and returns success.erb or failure.erb data back for rendering.
 delete '/ownedBook' do 
 	ownedBookId = params["ownedBookId"]
-	
-	puts ownedBookId
-	
+		
 	didDeleteBook = oauthPost('/owned_books/destroy/'+ownedBookId.to_s)
 	if didDeleteBook
 		erb :success, :locals => {:message => "This book was successfully removed from your library!"}, :layout => false
@@ -171,4 +143,35 @@ get '/refreshBookLists' do
 	refreshBookList
 	
 	erb :index, :layout => false
+end
+
+#Called from the 'Add to Library' nav bar button form submission. The default behavior of the form is overridden in /js/navbar.js and an AJAX request is sent instead. Sends the search query to Goodreads. If there are results, sends the searchResults.erb data back to the AJAX request, which is then rendered in the search modal. If there are no results found, failure.erb is rendered instead.
+get '/search' do 
+	@searchQuery = params["bookName"]
+	pageNumber = params["pageNumber"]
+	
+	searchResultsResponse = oauthGet('/search/index.xml', "q" => @searchQuery, "page" => pageNumber)["search"]
+		
+	searchResultsArray = searchResultsResponse["results"]
+	if !searchResultsArray || searchResultsArray.count == 0
+		return erb :failure, :locals => {:message => "No results found."},  :layout => false
+	end
+	
+	searchResultsWorkList = searchResultsArray["work"]
+	if !searchResultsWorkList
+		return erb :failure, :locals => {:message => "No results found."},  :layout => false
+	end
+	
+	#when there's only 1 result, the xml to hash conversion makes the results list a single hash instead of an array of one hash
+	if searchResultsWorkList.is_a? Hash 
+		@searchResults = [searchResultsWorkList]
+	else
+		@searchResults = searchResultsWorkList	
+	end
+	
+	@totalResults = searchResultsResponse["total_results"].to_i
+	@resultStart = searchResultsResponse["results_start"].to_i
+	@resultEnd = searchResultsResponse["results_end"].to_i
+	
+	erb :searchResults, :layout => false
 end
