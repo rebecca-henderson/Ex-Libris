@@ -13,19 +13,19 @@ Run `rackup` to launch the application at http://localhost:9292.
 This requires a Goodreads account. Sign up at goodreads.com and then head to goodreads.com/api to obtain a developer key and secret key. Add your keys to /controllers/oauth.rb.
 
 # To Do
--Better Network response error handling. More robust and more graceful.
--Improve OAuth callback error checking.
--Better way to update the book list after adding a new book to the library. Currently the whole list is refetched, re-rendered and replaced.\
--Center loading spinner in search modal.
--Use generic modalAlert when displaying responses from POST /ownedBook rather than reusing the search modal.
--Move pagination calculation to helper method and out of erb?
+* Better Network response error handling. More robust and more graceful.
+* Improve OAuth callback error checking.
+* Better way to update the book list after adding a new book to the library. Currently the whole list is refetched, re-rendered and replaced.
+* Center loading spinner in search modal.
+* Use generic modalAlert when displaying responses from POST /ownedBook rather than reusing the search modal.
+* Move pagination calculation to helper method and out of erb?
 
 
 # Enhancements
--Show book cover images in book list panel body and in search requests.
--Show personal book ratings and reviews.
--Allow editing of other 'owned book' attributes (condition, purchase date/location, etc).
--Pick a shelf to add newly added books to. (i.e. 'Want to Read', 'Currently Reading', etc)
+* Show book cover images in book list panel body and in search requests.
+* Show personal book ratings and reviews.
+* Allow editing of other 'owned book' attributes (condition, purchase date/location, etc).
+* Pick a shelf to add newly added books to. (i.e. 'Want to Read', 'Currently Reading', etc)
 
 
 
